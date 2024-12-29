@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-color: #2563eb;
+  --secondary-color: #1e40af;
+}
+
+body {
+  @apply antialiased text-gray-800 bg-white;
+}
+
+.prose {
+  @apply max-w-none;
+} 

@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ExerciseForm from '../../components/react/ExerciseForm';
+
+export function getStaticPaths() {
+  return [
+    { params: { topicId: 'present-simple' } },
+    { params: { topicId: 'past-simple' } },
+    { params: { topicId: 'present-perfect' } }
+  ];
+}
+
+const { topicId } = Astro.params;
+
+// Datos de ejemplo para los ejercicios
+const exercises = [
+  {
+    id: 'ex1',
+    question: 'Choose the correct form of the verb "to be" in present simple:',
+    type: 'multiple-choice' as const,
+    options: ['am', 'is', 'are'],
+    correctAnswer: 'is'
+  },
+  {
+    id: 'ex2',
+    question: 'Complete the sentence: "She ____ to school every day."',
+    type: 'fill-in-blank' as const,
+    correctAnswer: 'goes'
+  },
+  {
+    id: 'ex3',
+    question: 'Select the correct negative form: "They ____ like pizza."',
+    type: 'multiple-choice' as const,
+    options: ["don't", "doesn't", "not"],
+    correctAnswer: "don't"
+  }
+];
+---
+
+<BaseLayout title={`Ejercicios - ${topicId}`}>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="mb-8">
+      <a href={`/documentation/${topicId}`} class="text-blue-600 hover:text-blue-800">
+        ← Volver a la teoría
+      </a>
+      <h1 class="text-3xl font-bold mt-4">Ejercicios: {topicId}</h1>
+    </div>
+    
+    <ExerciseForm client:load topicId={topicId} exercises={exercises} />
+  </div>
+</BaseLayout> 

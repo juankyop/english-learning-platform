@@ -1,0 +1,119 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Button from '../../components/ui/Button.astro';
+import InteractiveVisualization from '../../components/react/InteractiveVisualization';
+import AudioPlayer from '../../components/react/AudioPlayer';
+import MemoryCard from '../../components/ui/MemoryCard.astro';
+import PracticePrompt from '../../components/react/PracticePrompt';
+import TeacherAssistant from '../../components/react/TeacherAssistant';
+import { presentSimple } from '../../data/theory/present-simple';
+
+export function getStaticPaths() {
+  // Por ahora solo tenemos present-simple, pero aquí añadiremos más temas
+  return [
+    { params: { topic: 'present-simple' } }
+  ];
+}
+
+const { topic } = Astro.params;
+
+// Obtener los datos del tema según el parámetro
+const getTopicData = (topicId: string) => {
+  const topics = {
+    'present-simple': presentSimple
+  };
+  return topics[topicId as keyof typeof topics];
+};
+
+const theory = getTopicData(topic);
+
+// Si no existe el tema, mostrar página de error
+if (!theory) {
+  return new Response('Tema no encontrado', { status: 404 });
+}
+---
+
+<BaseLayout title={`${theory.title} - Teoría`}>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <header class="mb-12">
+      <div class="flex items-center justify-between">
+        <h1 class="text-4xl font-bold text-gray-900">{theory.title}</h1>
+        <span class="px-3 py-1 text-sm font-semibold text-blue-800 bg-blue-100 rounded-full">
+          Nivel {theory.level}
+        </span>
+      </div>
+    </header>
+
+    {theory.sections.map(section => (
+      <section class="mb-16">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">{section.title}</h2>
+        
+        <div class="prose prose-lg mb-8">
+          <p>{section.explanation}</p>
+        </div>
+
+        {/* Ejemplos con Audio */}
+        <div class="space-y-6">
+          {section.examples.map(example => (
+            <div class="bg-white shadow rounded-lg p-6">
+              <div class="flex items-start justify-between">
+                <div>
+                  <p class="text-lg font-medium text-gray-900">{example.english}</p>
+                  <p class="text-gray-600">{example.spanish}</p>
+                  <p class="text-sm text-gray-500 mt-2">{example.context}</p>
+                </div>
+                {example.audio && (
+                  <AudioPlayer client:visible audioUrl={example.audio} />
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Visualización Interactiva */}
+        {section.interactiveElements?.map(element => (
+          element.type === 'visualization' && (
+            <div class="bg-gray-50 rounded-xl p-6 mb-8">
+              <InteractiveVisualization
+                client:visible
+                data={element.content}
+              />
+            </div>
+          )
+        ))}
+
+        {/* Errores Comunes */}
+        {section.commonMistakes && section.commonMistakes.length > 0 && (
+          <div class="mt-8">
+            <h3 class="text-xl font-semibold mb-4">¡Cuidado con estos errores!</h3>
+            <div class="grid gap-4">
+              {section.commonMistakes.map(mistake => (
+                <div class="bg-red-50 rounded-lg p-6">
+                  <div class="flex items-center space-x-4">
+                    <div class="flex-1">
+                      <p class="line-through text-red-600">{mistake.incorrect}</p>
+                      <p class="text-green-600 font-medium">{mistake.correct}</p>
+                      <p class="text-gray-600 mt-2">{mistake.explanation}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </section>
+    ))}
+
+    <div class="mt-12 flex justify-center">
+      <Button href={`/exercises/${theory.id}`}>
+        ¡Practica lo aprendido!
+      </Button>
+    </div>
+
+    <TeacherAssistant 
+      client:load 
+      tips={theory.tips} 
+      currentSection={theory.sections[0].id}
+    />
+  </div>
+</BaseLayout> 

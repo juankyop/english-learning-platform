@@ -1,0 +1,124 @@
+---
+---
+
+<header class="fixed top-0 left-0 right-0 z-50">
+  <div class="glass-effect px-6 py-4">
+    <nav class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-8">
+        <a href="/" class="flex items-center space-x-2">
+          <span class="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            English Learning
+          </span>
+        </a>
+        
+        <div class="hidden md:flex items-center space-x-6">
+          <a href="/documentation" class="nav-link">Teoría</a>
+          <a href="/exercises" class="nav-link">Ejercicios</a>
+          <a href="/writing" class="nav-link">Writing</a>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <button class="login-button">
+          <span class="button-content">
+            Iniciar Sesión
+          </span>
+        </button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .nav-link {
+    position: relative;
+    color: var(--primary-color);
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: var(--primary-color);
+    transition: width 0.3s ease;
+  }
+
+  .nav-link:hover::after {
+    width: 100%;
+  }
+
+  .login-button {
+    position: relative;
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px;
+    font-weight: 500;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .login-button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    padding: 3px;
+    background: linear-gradient(
+      90deg,
+      #f8898a,
+      #4249fb,
+      #f8898a
+    );
+    -webkit-mask: 
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask: 
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: rotate 2.2s linear infinite;
+    background-size: 200% 100%;
+  }
+
+  .button-content {
+    position: relative;
+    z-index: 1;
+    color: #333;
+    font-weight: 500;
+  }
+
+  @keyframes rotate {
+    0% {
+      background-position: 0% 0%;
+    }
+    100% {
+      background-position: 200% 0%;
+    }
+  }
+
+  .login-button:hover::before {
+    animation-duration: 1s;
+  }
+
+  .login-button::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    padding: 3px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .login-button:hover::after {
+    opacity: 1;
+  }
+</style> 

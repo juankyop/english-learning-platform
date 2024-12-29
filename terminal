@@ -1,0 +1,27 @@
+src/
+├── components/
+│   ├── layout/
+│   │   ├── Header.astro
+│   │   ├── Footer.astro
+│   │   └── Sidebar.astro
+│   ├── ui/
+│   │   ├── Button.astro
+│   │   └── Card.astro
+│   └── react/
+│       ├── ExerciseForm.jsx
+│       └── WritingSelector.jsx
+├── layouts/
+│   └── BaseLayout.astro
+├── pages/
+│   ├── index.astro
+│   ├── documentation/
+│   │   ├── index.astro
+│   │   └── [topic].astro
+│   ├── exercises/
+│   │   ├── index.astro
+│   │   └── [topicId].astro
+│   └── writing/
+│       ├── index.astro
+│       └── [modelType].astro
+└── styles/
+    └── global.css 

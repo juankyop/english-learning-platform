@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TopicCard from '../../components/ui/TopicCard.astro';
+
+const writingTopics = [
+  {
+    id: 'formal-letter',
+    title: 'Formal Letters',
+    level: 'B1',
+    description: 'Learn how to write professional and formal letters for business or academic purposes.'
+  },
+  {
+    id: 'informal-letter',
+    title: 'Informal Letters',
+    level: 'A2',
+    description: 'Write friendly letters to family and friends.'
+  },
+  {
+    id: 'essay',
+    title: 'Essays',
+    level: 'B2',
+    description: 'Master the art of academic essay writing with proper structure and vocabulary.'
+  },
+  {
+    id: 'email',
+    title: 'Emails',
+    level: 'B1',
+    description: 'Write effective emails for both formal and informal situations.'
+  }
+];
+---
+
+<BaseLayout title="Writing Practice - English Learning">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <header class="mb-12">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">Writing Practice</h1>
+      <p class="text-lg text-gray-600">
+        Select a writing model to learn its structure and practice with examples.
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {writingTopics.map(topic => (
+        <TopicCard
+          href={`/writing/${topic.id}`}
+          title={topic.title}
+          level={topic.level}
+          description={topic.description}
+        />
+      ))}
+    </div>
+  </div>
+</BaseLayout> 

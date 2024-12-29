@@ -1,0 +1,17 @@
+---
+interface Props {
+  title: string;
+  explanation: string;
+  example: string;
+}
+
+const { title, explanation, example } = Astro.props;
+---
+
+<div class="bg-gradient-to-br from-blue-50 to-white p-6 rounded-lg shadow-sm border border-blue-100">
+  <h4 class="text-lg font-semibold text-blue-900 mb-3">{title}</h4>
+  <p class="text-gray-600 mb-4">{explanation}</p>
+  <div class="bg-white p-4 rounded-md border border-blue-100">
+    <p class="text-blue-800 font-medium">{example}</p>
+  </div>
+</div> 
