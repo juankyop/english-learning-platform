@@ -28,7 +28,7 @@ const features = [
       
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
         <!-- Hero Content -->
-        <div class="max-w-4xl mx-auto text-center mb-16" transition:animate="slide">
+        <div class="max-w-4xl mx-auto text-center mb-16">
           <h1 class="text-6xl md:text-7xl font-bold mb-8 leading-tight" transition:name="main-title">
             <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
               Aprende inglés
@@ -58,7 +58,6 @@ const features = [
           {features.map((feature, index) => (
             <div 
               class="group bg-white rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-              transition:animate="slide"
               style={`animation-delay: ${index * 100}ms`}
             >
               <div class="aspect-[4/3] mb-6 overflow-hidden rounded-2xl bg-gray-50">
@@ -78,7 +77,7 @@ const features = [
     </section>
 
     <!-- CTA Section -->
-    <section class="bg-primary relative overflow-hidden" transition:animate="slide">
+    <section class="bg-primary relative overflow-hidden">
       <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div class="relative bg-white/10 backdrop-blur-lg rounded-3xl p-8 md:p-12 overflow-hidden">

@@ -1,0 +1,65 @@
+---
+import type { UseOfEnglishPart } from '../../types/cambridge';
+
+interface Props {
+  section: UseOfEnglishPart;
+}
+
+const { section } = Astro.props;
+---
+
+<div class="space-y-6">
+  <div class="grid md:grid-cols-2 gap-6">
+    <div>
+      <h4 class="text-lg font-semibold text-gray-800 mb-3">Puntos gramaticales</h4>
+      <ul class="space-y-2">
+        {section.grammarPoints.map(point => (
+          <li class="flex items-center text-gray-600">
+            <svg class="w-4 h-4 text-primary mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+            {point}
+          </li>
+        ))}
+      </ul>
+    </div>
+    
+    <div>
+      <h4 class="text-lg font-semibold text-gray-800 mb-3">Áreas de vocabulario</h4>
+      <ul class="space-y-2">
+        {section.vocabularyAreas.map(area => (
+          <li class="flex items-center text-gray-600">
+            <svg class="w-4 h-4 text-primary mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+            {area}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <div>
+    <h4 class="text-lg font-semibold text-gray-800 mb-4">Errores comunes</h4>
+    <div class="space-y-4">
+      {section.commonErrors.map(error => (
+        <div class="bg-red-50 rounded-lg p-4">
+          <p class="text-red-600 font-medium mb-2">{error.error}</p>
+          <p class="text-gray-600 mb-2">{error.correction}</p>
+          <p class="text-sm text-gray-500">Ejemplo: {error.example}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="flex items-center justify-between p-4 bg-blue-50 rounded-lg">
+    <div>
+      <p class="text-sm text-blue-600 font-medium">Formato</p>
+      <p class="text-gray-700">{section.format}</p>
+    </div>
+    <div>
+      <p class="text-sm text-blue-600 font-medium">Número de preguntas</p>
+      <p class="text-2xl font-bold text-blue-700">{section.totalQuestions}</p>
+    </div>
+  </div>
+</div> 

@@ -1,0 +1,326 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Timer from '../../../../../components/exercises/Timer.astro';
+import ProgressBar from '../../../../../components/exercises/ProgressBar.astro';
+import type { Exercise } from '../../../../../types/exercises';
+import { readingExercises } from '../../../../../data/exercises/reading-part1';
+
+export function getStaticPaths() {
+  return Object.entries(readingExercises).map(([id, exercise]) => ({
+    params: { id },
+    props: { exercise }
+  }));
+}
+
+interface Props {
+  exercise: Exercise;
+}
+
+const { exercise } = Astro.props;
+---
+
+<BaseLayout title={`${exercise.title} - B2 First Use of English Part 1`}>
+  <div class="min-h-screen bg-gray-50">
+    <!-- Header mejorado -->
+    <header class="fixed top-0 left-0 right-0 bg-white shadow-sm z-20">
+      <div class="max-w-7xl mx-auto px-4 py-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-6">
+            <div>
+              <h1 class="text-xl font-bold text-gray-900">{exercise.title}</h1>
+              <p class="text-sm text-gray-600">Use of English Part 1 - Multiple Choice</p>
+            </div>
+            <div class="h-8 w-px bg-gray-200"></div>
+            <div class="flex items-center gap-2">
+              <span class="text-sm text-gray-500">Tiempo restante:</span>
+              <Timer 
+                initialTime={exercise.timeAllowed * 60} 
+                client:load 
+                class="text-lg font-semibold text-primary"
+              />
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="flex items-center gap-2 px-3 py-1 bg-gray-50 rounded-full">
+              <span class="text-sm text-gray-500">Dificultad:</span>
+              <span class={`px-2 py-0.5 text-sm font-medium rounded-full ${
+                exercise.difficulty === 'Easy' ? 'bg-green-100 text-green-800' :
+                exercise.difficulty === 'Medium' ? 'bg-yellow-100 text-yellow-800' :
+                'bg-red-100 text-red-800'
+              }`}>
+                {exercise.difficulty}
+              </span>
+            </div>
+            <button 
+              class="p-2 hover:bg-gray-50 rounded-full transition-colors"
+              title="Pantalla completa"
+              onclick="document.documentElement.requestFullscreen()"
+            >
+              <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-5h-4m4 0v4m0 0l-5-5m-7 11h4m-4 0v4m0-4l5 5m11-5h-4m4 0v4m0-4l-5 5"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <ProgressBar current={1} total={exercise.totalQuestions} class="mt-3" />
+      </div>
+    </header>
+
+    <!-- Contenido principal mejorado -->
+    <div class="pt-24 pb-24">
+      <div class="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-8">
+        <!-- Columna izquierda: Texto y recursos -->
+        <div class="lg:sticky lg:top-28 lg:h-[calc(100vh-9rem)] flex flex-col gap-4">
+          <!-- Tabs para texto y recursos -->
+          <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <div class="border-b border-gray-200">
+              <div class="flex" role="tablist">
+                <button 
+                  class="flex-1 px-4 py-3 text-sm font-medium text-primary border-b-2 border-primary"
+                  role="tab"
+                  aria-selected="true"
+                >
+                  Texto del ejercicio
+                </button>
+                <button 
+                  class="flex-1 px-4 py-3 text-sm font-medium text-gray-500 hover:text-gray-700"
+                  role="tab"
+                  aria-selected="false"
+                >
+                  Tips y estrategias
+                </button>
+                <button 
+                  class="flex-1 px-4 py-3 text-sm font-medium text-gray-500 hover:text-gray-700"
+                  role="tab"
+                  aria-selected="false"
+                >
+                  Recursos útiles
+                </button>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="prose prose-lg max-w-none">
+                {exercise.text.split('\n\n').map(paragraph => (
+                  <p class="relative">
+                    {paragraph.split(/(\(\d+\) _____)/).map((part, index) => 
+                      part.match(/\(\d+\) _____/) ? (
+                        <span class="inline-flex items-center justify-center min-w-[100px] px-3 py-1.5 bg-blue-50 rounded-md border border-blue-200">
+                          <span class="text-sm font-medium text-blue-800">Gap {part.match(/\d+/)[0]}</span>
+                        </span>
+                      ) : (
+                        <span>{part}</span>
+                      )
+                    )}
+                  </p>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <!-- Mini diccionario flotante -->
+          <div class="bg-white rounded-xl shadow-lg p-4 flex items-center gap-4">
+            <div class="flex-1">
+              <input 
+                type="text" 
+                placeholder="Buscar palabra..." 
+                class="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+              />
+            </div>
+            <button class="p-2 text-primary hover:bg-primary/5 rounded-lg transition-colors">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Columna derecha: Preguntas mejoradas -->
+        <div class="space-y-6">
+          <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-lg font-semibold text-gray-900">Tus respuestas</h2>
+              <span class="text-sm text-gray-500">{exercise.questions.filter(q => q.userAnswer).length} de {exercise.totalQuestions} completadas</span>
+            </div>
+            <div class="grid grid-cols-4 gap-2">
+              {exercise.questions.map(question => (
+                <button 
+                  class={`p-2 rounded-lg text-center ${
+                    question.userAnswer 
+                      ? 'bg-primary/10 text-primary font-medium' 
+                      : 'bg-gray-100 text-gray-500'
+                  }`}
+                  onclick={`scrollToQuestion(${question.id})`}
+                >
+                  {question.id}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div class="space-y-6">
+            {exercise.questions.map(question => (
+              <div id={`question-${question.id}`} class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="p-6">
+                  <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center gap-3">
+                      <span class="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary font-semibold">
+                        {question.id}
+                      </span>
+                      <h3 class="font-medium text-gray-900">Selecciona la opción correcta</h3>
+                    </div>
+                    <button 
+                      class="p-1.5 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-50"
+                      title="Ver contexto"
+                      onclick={`highlightGap(${question.id})`}
+                    >
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                      </svg>
+                    </button>
+                  </div>
+
+                  <div class="grid grid-cols-2 gap-4">
+                    {question.options.map(option => (
+                      <label class="relative">
+                        <input 
+                          type="radio" 
+                          name={`question-${question.id}`} 
+                          value={option.id}
+                          class="peer absolute opacity-0"
+                        />
+                        <div class="p-4 rounded-xl border-2 border-gray-200 hover:border-gray-300 peer-checked:border-primary peer-checked:bg-primary/[0.05] cursor-pointer transition-all duration-200 hover:shadow-md">
+                          <div class="flex items-center gap-3">
+                            <span class="flex items-center justify-center w-7 h-7 rounded-full border-2 border-gray-300 peer-checked:border-primary peer-checked:bg-primary/10 font-medium">
+                              {option.id}
+                            </span>
+                            <span class="font-medium text-gray-900">{option.text}</span>
+                          </div>
+                        </div>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer mejorado -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200">
+      <div class="max-w-7xl mx-auto px-4 py-3">
+        <div class="flex items-center justify-between">
+          <button 
+            class="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            <span>Anterior</span>
+          </button>
+
+          <div class="flex items-center gap-3">
+            <button 
+              class="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+              onclick="resetExercise()"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+              </svg>
+              <span>Reiniciar</span>
+            </button>
+            <button 
+              class="flex items-center gap-2 px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+              onclick="checkAnswers()"
+            >
+              <span>Comprobar respuestas</span>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </button>
+          </div>
+
+          <button 
+            class="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+          >
+            <span>Siguiente</span>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </footer>
+  </div>
+</BaseLayout>
+
+<script>
+  function scrollToQuestion(id) {
+    const question = document.getElementById(`question-${id}`);
+    question?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function highlightGap(id) {
+    // Implementar lógica para resaltar el hueco en el texto
+  }
+
+  function checkAnswers() {
+    // Implementar lógica de comprobación
+  }
+
+  function resetExercise() {
+    // Implementar lógica de reinicio
+  }
+</script>
+
+<style>
+  /* Estilos para scrollbar personalizado */
+  .prose {
+    scrollbar-width: thin;
+    scrollbar-color: #E5E7EB transparent;
+  }
+
+  .prose::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .prose::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .prose::-webkit-scrollbar-thumb {
+    background-color: #E5E7EB;
+    border-radius: 3px;
+  }
+
+  /* Estilos para radio buttons */
+  input[type="radio"]:checked + div span:first-child {
+    @apply border-primary;
+    background-color: rgb(var(--color-primary) / 0.1);
+  }
+
+  /* Animaciones suaves */
+  .transition-all {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+
+  /* Mejoras visuales para los inputs */
+  input[type="radio"]:checked + div {
+    @apply border-primary;
+    box-shadow: 0 0 0 1px rgb(var(--color-primary) / 0.1);
+  }
+
+  input[type="radio"]:checked + div span:first-child {
+    @apply border-primary;
+    background-color: rgb(var(--color-primary) / 0.1);
+    color: rgb(var(--color-primary));
+  }
+
+  /* Efecto hover mejorado */
+  .hover\:shadow-md:hover {
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  }
+</style> 

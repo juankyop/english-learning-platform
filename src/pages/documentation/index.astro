@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content';
 
 const sections = [
   {
+    id: 1,
     title: 'Teoría de Gramática',
     subtitle: 'Domina las bases.',
     description: 'Aprende las reglas fundamentales de la gramática inglesa de manera estructurada.',
@@ -17,6 +18,7 @@ const sections = [
     ]
   },
   {
+    id: 2,
     title: 'Vocabulario',
     subtitle: 'Expande tu léxico.',
     description: 'Amplía tu vocabulario en inglés con palabras y expresiones organizadas por temas.',
@@ -48,7 +50,7 @@ const vocabDocs = await getCollection('docs', ({ id }) => id.startsWith('vocabul
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
       <!-- Guía de estudio (ahora más ancha) -->
       <div class="lg:col-span-1">
-        <div class="stats-card rounded-2xl p-8 sticky top-8">
+        <div class="stats-card rounded-2xl p-8 sticky top-8" transition:name="progress-guide">
           <h2 class="text-2xl font-bold text-gray-900 mb-8">Guía de Estudio</h2>
           <div class="space-y-8">
             <div>
@@ -74,10 +76,8 @@ const vocabDocs = await getCollection('docs', ({ id }) => id.startsWith('vocabul
             <a 
               href={section.href} 
               class="block group"
-              transition:animate="slide"
-              style={`animation-delay: ${index * 100}ms`}
             >
-              <div class="bg-white depth-card rounded-[2rem] p-12 h-full">
+              <div class="bg-white depth-card rounded-[2rem] p-12 h-full" transition:name={`div-${section.id}`}>
                 <div class="flex flex-col h-full">
                   <!-- Icono y título -->
                   <div class="mb-8">
@@ -86,12 +86,12 @@ const vocabDocs = await getCollection('docs', ({ id }) => id.startsWith('vocabul
                         src={section.icon} 
                         alt="" 
                         class="w-full h-full"
-                        transition:name={`icon-${section.icon}`}
+                        transition:name={`icon-${section.id}`}
                       />
                     </div>
                     <h2 
-                      class="text-3xl font-semibold text-gray-900 mb-2 card-title transition-all duration-300"
-                      transition:name={`title-${section.title}`}
+                      class="text-3xl font-semibold text-gray-900 mb-2 card-title"
+                      transition:name={`title-${section.id}`}
                     >
                       {section.title}
                     </h2>

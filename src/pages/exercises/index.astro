@@ -4,6 +4,7 @@ import Button from '../../components/ui/Button.astro';
 
 const exerciseTypes = [
   {
+    id: 1,
     title: 'Ejercicios de Gramática',
     subtitle: 'Domina las reglas.',
     description: 'Practica la gramática inglesa con ejercicios organizados por temas y niveles.',
@@ -17,16 +18,17 @@ const exerciseTypes = [
     ]
   },
   {
-    title: 'Cambridge Exam',
+    id: 2,
+    title: 'Cambridge Exams',
     subtitle: 'Prepárate para el éxito.',
-    description: 'Ejercicios que simulan el formato real de los exámenes Cambridge.',
-    icon: '/icons/exam-icon.svg',
+    description: 'Ejercicios específicos para preparar los exámenes oficiales de Cambridge.',
+    icon: '/icons/cambridge-icon.svg',
     href: '/exercises/cambridge',
     features: [
       'Formato idéntico al examen',
-      'Cronómetro incluido',
+      'Ejercicios por secciones',
       'Tips y estrategias',
-      'Corrección detallada'
+      'Seguimiento de progreso'
     ]
   }
 ];
@@ -44,7 +46,7 @@ const exerciseTypes = [
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
       <!-- Barra de progreso (columna izquierda en desktop) -->
       <div class="lg:col-span-1">
-        <div class="stats-card rounded-2xl p-8 sticky top-8">
+        <div class="stats-card rounded-2xl p-8 sticky top-8" transition:name="progress-guide">
           <h2 class="text-2xl font-bold text-gray-900 mb-8">Tu progreso</h2>
           <div class="space-y-8">
             <div>
@@ -74,10 +76,9 @@ const exerciseTypes = [
             <a 
               href={type.href} 
               class="block group"
-              transition:animate="slide"
               style={`animation-delay: ${index * 100}ms`}
             >
-              <div class="bg-white depth-card rounded-[2rem] p-12 h-full">
+              <div class="bg-white depth-card rounded-[2rem] p-12 h-full" transition:name={`div-${type.id}`}>
                 <div class="flex flex-col h-full">
                   <!-- Icono y título -->
                   <div class="mb-8">
@@ -86,12 +87,12 @@ const exerciseTypes = [
                         src={type.icon} 
                         alt="" 
                         class="w-full h-full"
-                        transition:name={`icon-${type.icon}`}
+                        transition:name={`icon-${type.id}`}
                       />
                     </div>
                     <h2 
                       class="text-3xl font-semibold text-gray-900 mb-2 card-title transition-all duration-300"
-                      transition:name={`title-${type.title}`}
+                      transition:name={`title-${type.id}`}
                     >
                       {type.title}
                     </h2>

@@ -1,0 +1,188 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { b2FirstExam } from '../../data/cambridge/b2-first';
+
+const readingSections = b2FirstExam.sections.filter(section => section.type === 'reading');
+const useOfEnglishSections = b2FirstExam.sections.filter(section => section.type === 'use-of-english');
+
+// Simulación de ejercicios disponibles (esto vendría de una base de datos)
+const availableExercises = {
+  'reading-part1': [
+    { id: 1, title: 'Technology and Society', difficulty: 'Medium', completions: 234, accuracy: '76%' },
+    { id: 2, title: 'Environmental Changes', difficulty: 'Hard', completions: 156, accuracy: '68%' },
+    { id: 3, title: 'Modern Education', difficulty: 'Easy', completions: 345, accuracy: '82%' }
+  ],
+  'reading-part5': [
+    { id: 4, title: 'Scientific Discoveries', difficulty: 'Medium', completions: 198, accuracy: '71%' },
+    { id: 5, title: 'Cultural Differences', difficulty: 'Medium', completions: 267, accuracy: '74%' }
+  ]
+  // ... más ejercicios para cada parte
+};
+---
+
+<BaseLayout title={b2FirstExam.name}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <header class="mb-12">
+      <div class="flex items-center gap-4 mb-4">
+        <h1 class="text-4xl font-bold text-gray-900">B2 First: Reading & Use of English</h1>
+        <span class="px-3 py-1 text-sm font-semibold text-primary bg-primary/10 rounded-full">
+          {b2FirstExam.level}
+        </span>
+      </div>
+      <p class="text-xl text-gray-600">
+        Practica todas las partes del examen con ejercicios reales y recibe feedback instantáneo
+      </p>
+    </header>
+
+    <div class="grid lg:grid-cols-4 gap-8">
+      <!-- Sidebar con información general y progreso -->
+      <div class="lg:col-span-1">
+        <div class="space-y-6 sticky top-8">
+          <!-- Estadísticas generales -->
+          <div class="bg-white rounded-xl shadow-lg p-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4">Tu progreso</h2>
+            <div class="space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="text-gray-600">Ejercicios completados</span>
+                <span class="font-semibold text-primary">0/24</span>
+              </div>
+              <div>
+                <div class="flex items-center justify-between mb-1">
+                  <span class="text-gray-600">Precisión media</span>
+                  <span class="font-semibold text-primary">0%</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                  <div class="bg-primary rounded-full h-2" style="width: 0%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick tips -->
+          <div class="bg-blue-50 rounded-xl p-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4">Tips rápidos</h2>
+            <ul class="space-y-3">
+              <li class="flex items-start">
+                <svg class="w-5 h-5 text-primary mt-1 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+                <span class="text-gray-600">Lee las instrucciones cuidadosamente antes de empezar</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="w-5 h-5 text-primary mt-1 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <span class="text-gray-600">Gestiona tu tiempo - 1.2 minutos por pregunta</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contenido principal -->
+      <div class="lg:col-span-3">
+        <!-- Reading Section -->
+        <section class="mb-12">
+          <h2 class="text-3xl font-bold text-gray-900 mb-6">Reading</h2>
+          <div class="space-y-8">
+            {readingSections.map(section => (
+              <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="p-6">
+                  <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-bold text-gray-900">
+                      Part {section.partNumber}: {section.name}
+                    </h3>
+                    <div class="flex items-center gap-4">
+                      <span class="text-sm text-gray-500">{section.timeAllowed} min</span>
+                      <span class="text-sm text-gray-500">{section.totalQuestions} preguntas</span>
+                    </div>
+                  </div>
+                  
+                  <p class="text-gray-600 mb-6">{section.description}</p>
+
+                  <!-- Ejercicios disponibles -->
+                  <div class="grid sm:grid-cols-2 gap-4 mb-6">
+                    {availableExercises[section.id]?.map(exercise => (
+                      <a 
+                        href={`/cambridge/b2-first/exercises/${exercise.id}`}
+                        class="block bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors"
+                      >
+                        <div class="flex items-start justify-between mb-2">
+                          <h4 class="font-medium text-gray-900">{exercise.title}</h4>
+                          <span class={`px-2 py-1 text-xs rounded-full ${
+                            exercise.difficulty === 'Easy' ? 'bg-green-100 text-green-800' :
+                            exercise.difficulty === 'Medium' ? 'bg-yellow-100 text-yellow-800' :
+                            'bg-red-100 text-red-800'
+                          }`}>
+                            {exercise.difficulty}
+                          </span>
+                        </div>
+                        <div class="flex items-center justify-between text-sm text-gray-500">
+                          <span>{exercise.completions} completados</span>
+                          <span>Precisión: {exercise.accuracy}</span>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+
+                  <!-- Botón para ver más información -->
+                  <button 
+                    class="text-primary hover:text-primary/80 text-sm font-medium flex items-center gap-1"
+                    onclick={`document.getElementById('details-${section.id}').classList.toggle('hidden')`}
+                  >
+                    <span>Ver más detalles</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                  </button>
+                </div>
+
+                <!-- Detalles expandibles -->
+                <div id={`details-${section.id}`} class="hidden border-t border-gray-100 p-6 bg-gray-50">
+                  <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <h4 class="font-semibold text-gray-900 mb-2">Tips específicos</h4>
+                      <ul class="space-y-2">
+                        {section.tips.map(tip => (
+                          <li class="flex items-start">
+                            <svg class="w-4 h-4 text-primary mt-1 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                            <span class="text-gray-600 text-sm">{tip}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 class="font-semibold text-gray-900 mb-2">Habilidades evaluadas</h4>
+                      <div class="flex flex-wrap gap-2">
+                        {section.type === 'reading' && section.skills.map(skill => (
+                          <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <!-- Use of English Section -->
+        <section>
+          <h2 class="text-3xl font-bold text-gray-900 mb-6">Use of English</h2>
+          <div class="space-y-8">
+            {useOfEnglishSections.map(section => (
+              <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <!-- Similar structure to Reading section but with Use of English specific content -->
+                {/* ... */}
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</BaseLayout> 

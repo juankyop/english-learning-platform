@@ -1,0 +1,37 @@
+---
+interface Props {
+  initialTime: number; // en segundos
+}
+
+const { initialTime } = Astro.props;
+---
+
+<div class="flex items-center gap-2 text-gray-600">
+  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+  </svg>
+  <span class="font-medium" data-timer>{initialTime}</span>
+</div>
+
+<script define:vars={{ initialTime }}>
+  const timerElement = document.querySelector('[data-timer]');
+  let timeLeft = initialTime;
+
+  const updateTimer = () => {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    timerElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  };
+
+  const timer = setInterval(() => {
+    if (timeLeft > 0) {
+      timeLeft--;
+      updateTimer();
+    } else {
+      clearInterval(timer);
+      // Manejar tiempo agotado
+    }
+  }, 1000);
+
+  updateTimer();
+</script> 

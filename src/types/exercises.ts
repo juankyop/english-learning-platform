@@ -1,11 +1,32 @@
 export type ExamLevel = 'A2' | 'B1' | 'B2' | 'C1' | 'C2';
 
-export interface MultipleChoiceExercise {
-  type: 'multiple-choice-cloze';
+export interface Exercise {
+  id: number;
+  title: string;
+  type: string;
+  difficulty: 'Easy' | 'Medium' | 'Hard';
+  timeAllowed: number;
+  totalQuestions: number;
   text: string;
-  options: string[];
-  correct: number;
+  questions: Question[];
+  tips: string[];
+  strategies: Strategy[];
+}
+
+export interface Question {
+  id: number;
+  question: string;
+  options: Option[];
+  correctAnswer: string;
   explanation: string;
 }
 
-export type Exercise = MultipleChoiceExercise; 
+export interface Option {
+  id: string;
+  text: string;
+}
+
+export interface Strategy {
+  title: string;
+  description: string;
+} 
