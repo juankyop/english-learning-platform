@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
 
 const sections = [
   {
@@ -29,6 +30,10 @@ const sections = [
     ]
   }
 ];
+
+// Obtener el conteo de documentos por sección
+const grammarDocs = await getCollection('docs', ({ id }) => id.startsWith('grammar/'));
+const vocabDocs = await getCollection('docs', ({ id }) => id.startsWith('vocabulary/'));
 ---
 
 <BaseLayout 
@@ -43,20 +48,16 @@ const sections = [
           <h2 class="text-2xl font-bold text-gray-900 mb-8">Guía de Estudio</h2>
           <div class="space-y-8">
             <div>
-              <div class="text-3xl font-bold text-primary mb-2">2</div>
-              <div class="text-sm text-gray-600">Secciones principales</div>
+              <div class="text-3xl font-bold text-primary mb-2">{grammarDocs.length}</div>
+              <div class="text-sm text-gray-600">Temas de gramática</div>
             </div>
             <div>
-              <div class="text-3xl font-bold text-primary mb-2">12+</div>
-              <div class="text-sm text-gray-600">Temas disponibles</div>
+              <div class="text-3xl font-bold text-primary mb-2">{vocabDocs.length}</div>
+              <div class="text-sm text-gray-600">Temas de vocabulario</div>
             </div>
             <div>
               <div class="text-3xl font-bold text-primary mb-2">100+</div>
               <div class="text-sm text-gray-600">Ejemplos prácticos</div>
-            </div>
-            <div>
-              <div class="text-3xl font-bold text-primary mb-2">50+</div>
-              <div class="text-sm text-gray-600">Ejercicios de práctica</div>
             </div>
           </div>
         </div>

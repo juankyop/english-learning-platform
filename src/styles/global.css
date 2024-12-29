@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --primary-color: #2563eb;
-  --secondary-color: #1e40af;
+  --primary-color: #4B4ACF;
+  --secondary-color: #FF6B6B;
 }
 
 body {
-  @apply antialiased text-gray-800 bg-white;
+  @apply antialiased text-gray-800 bg-[#F8F9FF];
 }
 
 .prose {
