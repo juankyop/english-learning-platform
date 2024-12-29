@@ -1,19 +1,27 @@
-<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Fondo con gradiente suave -->
-  <rect width="800" height="600" fill="url(#paint0_linear)"/>
-  
-  <!-- Elementos decorativos -->
-  <circle cx="400" cy="300" r="150" fill="#4B4ACF" fill-opacity="0.1"/>
-  <circle cx="400" cy="300" r="100" fill="#4B4ACF" fill-opacity="0.2"/>
-  
-  <!-- Líneas de ritmo -->
-  <path d="M250 300 Q 400 200 550 300" stroke="#4B4ACF" stroke-width="4"/>
-  <path d="M250 350 Q 400 250 550 350" stroke="#FF6B6B" stroke-width="4"/>
-  
-  <defs>
-    <linearGradient id="paint0_linear" x1="0" y1="0" x2="800" y2="600">
-      <stop stop-color="#F8F9FF"/>
-      <stop offset="1" stop-color="#E8E9FF"/>
-    </linearGradient>
-  </defs>
+<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" rx="16" fill="#F8F9FF"/>
+  <circle cx="200" cy="150" r="80" fill="#4B4ACF" fill-opacity="0.1"/>
+  <path d="M160 150C160 127.909 177.909 110 200 110C222.091 110 240 127.909 240 150C240 172.091 222.091 190 200 190" 
+    stroke="#4B4ACF" stroke-width="12" stroke-linecap="round">
+    <animateTransform
+      attributeName="transform"
+      type="rotate"
+      from="0 200 150"
+      to="360 200 150"
+      dur="20s"
+      repeatCount="indefinite"
+      additive="sum"
+    />
+  </path>
+  <path d="M200 150L200 110" stroke="#4B4ACF" stroke-width="12" stroke-linecap="round">
+    <animateTransform
+      attributeName="transform"
+      type="rotate"
+      from="0 200 150"
+      to="360 200 150"
+      dur="5s"
+      repeatCount="indefinite"
+      additive="sum"
+    />
+  </path>
 </svg> 

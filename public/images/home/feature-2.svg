@@ -1,21 +1,25 @@
-<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Fondo con gradiente -->
-  <rect width="800" height="600" fill="url(#paint0_linear)"/>
-  
-  <!-- Elementos organizativos -->
-  <rect x="200" y="150" width="400" height="80" rx="8" fill="#4B4ACF" fill-opacity="0.1"/>
-  <rect x="200" y="260" width="400" height="80" rx="8" fill="#4B4ACF" fill-opacity="0.2"/>
-  <rect x="200" y="370" width="400" height="80" rx="8" fill="#FF6B6B" fill-opacity="0.1"/>
-  
-  <!-- Iconos minimalistas -->
-  <circle cx="250" cy="190" r="20" fill="#4B4ACF"/>
-  <circle cx="250" cy="300" r="20" fill="#4B4ACF"/>
-  <circle cx="250" cy="410" r="20" fill="#FF6B6B"/>
-  
-  <defs>
-    <linearGradient id="paint0_linear" x1="0" y1="0" x2="800" y2="600">
-      <stop stop-color="#F8F9FF"/>
-      <stop offset="1" stop-color="#E8E9FF"/>
-    </linearGradient>
-  </defs>
+<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" rx="16" fill="#F8F9FF"/>
+  <rect x="120" y="100" width="160" height="100" rx="8" fill="#4B4ACF" fill-opacity="0.1"/>
+  <path d="M140 130H260" stroke="#4B4ACF" stroke-width="12" stroke-linecap="round">
+    <animate
+      attributeName="stroke-dasharray"
+      values="0,120;120,0;120,0"
+      dur="3s"
+      repeatCount="indefinite"
+      calcMode="spline"
+      keySplines="0.4 0 0.2 1; 0.4 0 0.2 1"
+    />
+  </path>
+  <path d="M140 170H200" stroke="#4B4ACF" stroke-width="12" stroke-linecap="round">
+    <animate
+      attributeName="stroke-dasharray"
+      values="0,60;60,0;60,0"
+      dur="3s"
+      begin="0.5s"
+      repeatCount="indefinite"
+      calcMode="spline"
+      keySplines="0.4 0 0.2 1; 0.4 0 0.2 1"
+    />
+  </path>
 </svg> 

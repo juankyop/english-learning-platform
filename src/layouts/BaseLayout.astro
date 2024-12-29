@@ -1,16 +1,13 @@
 ---
-import Header from '../components/layout/Header.astro';
+import FloatingNav from '../components/ui/FloatingNav.astro';
 import { ViewTransitions } from 'astro:transitions';
 import '../styles/global.css';
 
 interface Props {
   title: string;
-  mode?: 'default' | 'docs';
 }
 
-const { title, mode = 'default' } = Astro.props;
-const currentPath = Astro.url.pathname;
-const isHome = currentPath === '/';
+const { title } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -24,7 +21,7 @@ const isHome = currentPath === '/';
     <ViewTransitions />
   </head>
   <body class="bg-[#F8F9FF] font-inter">
-    {isHome && <Header />}
+    <FloatingNav />
     <div class="flex min-h-screen">
       <main class="flex-1 px-4 py-6 transition-all duration-300 md:px-8">
         <div class="max-w-7xl mx-auto">

@@ -1,28 +1,51 @@
-<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Fondo con gradiente -->
-  <rect width="800" height="600" fill="url(#paint0_linear)"/>
-  
-  <!-- Gráfico de progreso -->
-  <path d="M200 450 L 300 350 L 400 400 L 500 200 L 600 150" 
+<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" rx="16" fill="#F8F9FF"/>
+  <path d="M120 200L180 140L220 180L280 100" 
     stroke="#4B4ACF" 
-    stroke-width="4"
+    stroke-width="12" 
     stroke-linecap="round"
-  />
-  
-  <!-- Puntos de datos -->
-  <circle cx="300" cy="350" r="8" fill="#4B4ACF"/>
-  <circle cx="400" cy="400" r="8" fill="#4B4ACF"/>
-  <circle cx="500" cy="200" r="8" fill="#4B4ACF"/>
-  <circle cx="600" cy="150" r="8" fill="#FF6B6B"/>
-  
-  <!-- Líneas de guía -->
-  <line x1="200" y1="150" x2="200" y2="450" stroke="#E2E8F0" stroke-width="2"/>
-  <line x1="200" y1="450" x2="600" y2="450" stroke="#E2E8F0" stroke-width="2"/>
-  
-  <defs>
-    <linearGradient id="paint0_linear" x1="0" y1="0" x2="800" y2="600">
-      <stop stop-color="#F8F9FF"/>
-      <stop offset="1" stop-color="#E8E9FF"/>
-    </linearGradient>
-  </defs>
+    stroke-dasharray="400"
+    stroke-dashoffset="400"
+  >
+    <animate
+      attributeName="stroke-dashoffset"
+      values="400;0;0"
+      dur="3s"
+      repeatCount="indefinite"
+      calcMode="spline"
+      keySplines="0.4 0 0.2 1; 0.4 0 0.2 1"
+    />
+  </path>
+  <circle cx="180" cy="140" r="8" fill="#4B4ACF">
+    <animate
+      attributeName="r"
+      values="6;8;6"
+      dur="3s"
+      repeatCount="indefinite"
+      calcMode="spline"
+      keySplines="0.4 0 0.2 1; 0.4 0 0.2 1"
+    />
+  </circle>
+  <circle cx="220" cy="180" r="8" fill="#4B4ACF">
+    <animate
+      attributeName="r"
+      values="6;8;6"
+      dur="3s"
+      begin="1s"
+      repeatCount="indefinite"
+      calcMode="spline"
+      keySplines="0.4 0 0.2 1; 0.4 0 0.2 1"
+    />
+  </circle>
+  <circle cx="280" cy="100" r="8" fill="#4B4ACF">
+    <animate
+      attributeName="r"
+      values="6;8;6"
+      dur="3s"
+      begin="2s"
+      repeatCount="indefinite"
+      calcMode="spline"
+      keySplines="0.4 0 0.2 1; 0.4 0 0.2 1"
+    />
+  </circle>
 </svg> 

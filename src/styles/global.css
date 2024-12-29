@@ -176,4 +176,24 @@ body {
 
 .depth-card:hover::after {
   transform: translateX(100%) rotate(45deg);
+}
+
+/* Añadir después de los estilos existentes */
+.feature-image {
+  filter: drop-shadow(0 4px 6px rgba(75, 74, 207, 0.1));
+  transition: filter 0.3s ease;
+}
+
+.feature-image:hover {
+  filter: drop-shadow(0 8px 12px rgba(75, 74, 207, 0.2));
+}
+
+.nav-transition {
+  view-transition-name: floating-nav;
+}
+
+::view-transition-old(floating-nav),
+::view-transition-new(floating-nav) {
+  animation: none;
+  mix-blend-mode: normal;
 } 
