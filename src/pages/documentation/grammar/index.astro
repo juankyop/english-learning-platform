@@ -15,20 +15,25 @@ const sortedDocs = grammarDocs.sort((a, b) => a.data.order - b.data.order);
     <h1 class="text-3xl font-bold text-gray-900 mb-8">Teoría de Gramática</h1>
     
     <div class="space-y-6">
-      {sortedDocs.map(doc => (
-        <a 
-          href={`/documentation/grammar/${doc.slug}`}
-          class="block bg-white rounded-lg shadow-sm hover:shadow-md transition-all border border-gray-200 p-6"
-        >
-          <div class="flex justify-between items-start mb-2">
-            <h2 class="text-xl font-semibold text-gray-900">{doc.data.title}</h2>
-            <span class="px-2 py-1 text-sm font-medium bg-primary-50 text-primary-700 rounded">
-              {doc.data.level}
-            </span>
-          </div>
-          <p class="text-gray-600">{doc.data.description}</p>
-        </a>
-      ))}
+      {sortedDocs.map(doc => {
+        // Extraer solo el nombre del archivo sin la carpeta grammar/
+        const slug = doc.slug.replace('grammar/', '');
+        
+        return (
+          <a 
+            href={`/documentation/${doc.slug}`}
+            class="block bg-white rounded-lg shadow-sm hover:shadow-md transition-all border border-gray-200 p-6"
+          >
+            <div class="flex justify-between items-start mb-2">
+              <h2 class="text-xl font-semibold text-gray-900">{doc.data.title}</h2>
+              <span class="px-2 py-1 text-sm font-medium bg-primary-50 text-primary-700 rounded">
+                {doc.data.level}
+              </span>
+            </div>
+            <p class="text-gray-600">{doc.data.description}</p>
+          </a>
+        );
+      })}
     </div>
   </div>
 </BaseLayout> 
