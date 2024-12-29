@@ -1,0 +1,88 @@
+---
+import ExerciseLayout from '../../../layouts/ExerciseLayout.astro';
+import MultipleChoiceCloze from '../../../components/exercises/MultipleChoiceCloze.astro';
+
+export function getStaticPaths() {
+  return [
+    { params: { type: 'grammar', topic: 'present-simple' } },
+    { params: { type: 'grammar', topic: 'past-simple' } },
+    { params: { type: 'cambridge', topic: 'reading-b2' } },
+    { params: { type: 'cambridge', topic: 'use-of-english-b2' } }
+  ];
+}
+
+const { type, topic } = Astro.params;
+
+const exercises = {
+  'grammar': {
+    'present-simple': {
+      title: 'Present Simple',
+      description: 'Practice exercises for Present Simple tense',
+      exercises: [
+        {
+          type: 'multiple-choice-cloze',
+          text: 'John [verb] to work every day at 8 AM.',
+          options: ['go', 'goes', 'going', 'went'],
+          correct: 1,
+          explanation: 'We use "goes" because it\'s third person singular (he/she/it)'
+        },
+        // Más ejercicios aquí...
+      ]
+    },
+    'past-simple': {
+      title: 'Past Simple',
+      description: 'Practice exercises for Past Simple tense',
+      exercises: [
+        // Ejercicios aquí...
+      ]
+    }
+  },
+  'cambridge': {
+    'reading-b2': {
+      title: 'Reading B2',
+      description: 'B2 First Reading practice',
+      exercises: [
+        // Ejercicios aquí...
+      ]
+    },
+    'use-of-english-b2': {
+      title: 'Use of English B2',
+      description: 'B2 First Use of English practice',
+      exercises: [
+        // Ejercicios aquí...
+      ]
+    }
+  }
+};
+
+const content = exercises[type as keyof typeof exercises]?.[topic as string];
+
+if (!content) {
+  return Astro.redirect('/404');
+}
+---
+
+<ExerciseLayout title={content.title}>
+  <div class="max-w-4xl mx-auto">
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-900 mb-4">{content.title}</h1>
+      <p class="text-lg text-gray-600">{content.description}</p>
+    </div>
+
+    <div class="space-y-8">
+      {content.exercises.map((exercise, index) => (
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <div class="text-sm text-gray-500 mb-4">Ejercicio {index + 1}</div>
+          {exercise.type === 'multiple-choice-cloze' && (
+            <MultipleChoiceCloze
+              text={exercise.text}
+              options={exercise.options}
+              correct={exercise.correct}
+              explanation={exercise.explanation}
+            />
+          )}
+        </div>
+      ))}
+    </div>
+  </div>
+</ExerciseLayout> 

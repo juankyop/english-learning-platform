@@ -1,37 +1,122 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import TopicCard from '../../components/ui/TopicCard.astro';
 
-const topics = [
+const sections = [
   {
-    id: 'present-simple',
-    title: 'Present Simple',
-    level: 'A1',
-    description: 'Learn how to talk about habits and general truths',
+    title: 'Teoría de Gramática',
+    subtitle: 'Domina las bases.',
+    description: 'Aprende las reglas fundamentales de la gramática inglesa de manera estructurada.',
+    icon: '/icons/grammar-icon.svg',
+    href: '/documentation/grammar',
+    features: [
+      'Explicaciones detalladas',
+      'Ejemplos prácticos',
+      'Reglas y excepciones',
+      'Comparaciones con español'
+    ]
   },
   {
-    id: 'past-simple',
-    title: 'Past Simple',
-    level: 'A1',
-    description: 'Express completed actions in the past',
-  },
-  // Más temas...
+    title: 'Vocabulario',
+    subtitle: 'Expande tu léxico.',
+    description: 'Amplía tu vocabulario en inglés con palabras y expresiones organizadas por temas.',
+    icon: '/icons/vocabulary-icon.svg',
+    href: '/documentation/vocabulary',
+    features: [
+      'Vocabulario por temas',
+      'Expresiones comunes',
+      'Ejemplos en contexto',
+      'Ejercicios de memorización'
+    ]
+  }
 ];
 ---
 
-<BaseLayout title="Documentación - English Learning">
+<BaseLayout 
+  title="Documentación"
+  mode="docs"
+>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <h1 class="text-3xl font-bold mb-8">Temas gramaticales</h1>
-    
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {topics.map(topic => (
-        <TopicCard
-          href={`/documentation/${topic.id}`}
-          title={topic.title}
-          level={topic.level}
-          description={topic.description}
-        />
-      ))}
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Barra lateral (columna izquierda en desktop) -->
+      <div class="lg:col-span-1">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 sticky top-8">
+          <h2 class="text-2xl font-bold text-gray-900 mb-8">Guía de Estudio</h2>
+          <div class="space-y-8">
+            <div>
+              <div class="text-3xl font-bold text-primary mb-2">2</div>
+              <div class="text-sm text-gray-600">Secciones principales</div>
+            </div>
+            <div>
+              <div class="text-3xl font-bold text-primary mb-2">12+</div>
+              <div class="text-sm text-gray-600">Temas disponibles</div>
+            </div>
+            <div>
+              <div class="text-3xl font-bold text-primary mb-2">100+</div>
+              <div class="text-sm text-gray-600">Ejemplos prácticos</div>
+            </div>
+            <div>
+              <div class="text-3xl font-bold text-primary mb-2">50+</div>
+              <div class="text-sm text-gray-600">Ejercicios de práctica</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cards de teoría (columna derecha en desktop) -->
+      <div class="lg:col-span-2">
+        <div class="grid md:grid-cols-2 gap-8">
+          {sections.map(section => (
+            <a href={section.href} class="block group">
+              <div class="bg-white border border-gray-200 rounded-[2rem] p-12 h-full transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:border-primary/20">
+                <div class="flex flex-col h-full">
+                  <!-- Icono y título -->
+                  <div class="mb-8">
+                    <div class="w-16 h-16 mb-6">
+                      <img 
+                        src={section.icon} 
+                        alt="" 
+                        class="w-full h-full"
+                      />
+                    </div>
+                    <h2 class="text-3xl font-semibold text-gray-900 mb-2">
+                      {section.title}
+                    </h2>
+                    <p class="text-xl text-gray-600">
+                      {section.subtitle}
+                    </p>
+                  </div>
+                  
+                  <!-- Descripción -->
+                  <p class="text-gray-600 text-lg mb-8">
+                    {section.description}
+                  </p>
+                  
+                  <!-- Features -->
+                  <div class="mt-auto">
+                    <ul class="space-y-3 mb-8">
+                      {section.features.map(feature => (
+                        <li class="flex items-center text-gray-700">
+                          <svg class="w-5 h-5 mr-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                          </svg>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+
+                    <div class="inline-flex items-center text-primary font-medium group-hover:text-primary">
+                      Explorar {section.title}
+                      <svg class="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
     </div>
   </div>
 </BaseLayout> 

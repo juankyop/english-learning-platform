@@ -1,121 +1,55 @@
 ---
 import { Icon } from 'astro-icon';
+
+interface Props {
+  mode?: 'default' | 'docs';
+}
+
+const { mode = 'default' } = Astro.props;
+
+const navigation = {
+  docs: [
+    {
+      title: 'Teoría',
+      items: [
+        { name: 'Gramática', href: '/documentation/grammar', icon: 'description' },
+        { name: 'Vocabulario', href: '/documentation/vocabulary', icon: 'translate' },
+        { name: 'Pronunciación', href: '/documentation/pronunciation', icon: 'record_voice_over' },
+        { name: 'Expresiones', href: '/documentation/expressions', icon: 'chat_bubble' }
+      ]
+    }
+  ]
+};
 ---
 
-<aside id="sidebar" class="w-64 bg-gray-50 border-r h-full transition-all duration-300 ease-in-out">
-  <div class="sticky top-0 h-full">
-    <div class="flex justify-between items-center p-4 border-b">
-      <h2 class="font-semibold text-gray-800 sidebar-text overflow-hidden whitespace-nowrap">
-        Contenido
-      </h2>
-      <button
-        id="toggleSidebar"
-        class="p-2 rounded-lg hover:bg-gray-200 transition-colors flex-shrink-0"
-        aria-label="Toggle Sidebar"
-      >
-        <svg 
-          class="w-5 h-5 transform transition-transform duration-300" 
-          id="toggleIcon"
-          fill="none" 
-          stroke="currentColor" 
-          viewBox="0 0 24 24"
-        >
-          <path 
-            stroke-linecap="round" 
-            stroke-linejoin="round" 
-            stroke-width="2" 
-            d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
-          />
-        </svg>
-      </button>
+{mode === 'docs' && (
+  <aside 
+    id="sidebar" 
+    class="fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-gray-200 hidden md:block"
+  >
+    <div class="h-full px-3 py-4 overflow-y-auto">
+      <nav class="space-y-6">
+        {navigation.docs.map(section => (
+          <div class="mb-6">
+            <h3 class="px-3 mb-3 text-sm font-semibold text-gray-500">
+              {section.title}
+            </h3>
+            <ul>
+              {section.items.map(item => (
+                <li>
+                  <a
+                    href={item.href}
+                    class="flex items-center px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-100"
+                  >
+                    <span class="material-icons text-gray-500 mr-3">{item.icon}</span>
+                    <span>{item.name}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </nav>
     </div>
-
-    <nav class="p-4 space-y-6 overflow-hidden">
-      <div>
-        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3 sidebar-text overflow-hidden whitespace-nowrap">
-          Temas Gramaticales
-        </h3>
-        <div class="space-y-1">
-          <a 
-            href="/documentation/present-simple" 
-            class="flex items-center px-3 py-2 text-sm rounded-md text-gray-700 hover:bg-gray-100 transition-colors group"
-          >
-            <span class="material-icons text-gray-500 mr-3">book</span>
-            <span class="sidebar-text overflow-hidden whitespace-nowrap">Present Simple</span>
-          </a>
-          <a 
-            href="/documentation/past-simple" 
-            class="flex items-center px-3 py-2 text-sm rounded-md text-gray-700 hover:bg-gray-100 transition-colors group"
-          >
-            <span class="material-icons text-gray-500 mr-3">book</span>
-            <span class="sidebar-text overflow-hidden whitespace-nowrap">Past Simple</span>
-          </a>
-        </div>
-      </div>
-      
-      <div>
-        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3 sidebar-text overflow-hidden whitespace-nowrap">
-          Writing
-        </h3>
-        <div class="space-y-1">
-          <a 
-            href="/writing/formal-letter" 
-            class="flex items-center px-3 py-2 text-sm rounded-md text-gray-700 hover:bg-gray-100 transition-colors group"
-          >
-            <span class="material-icons text-gray-500 mr-3">edit_note</span>
-            <span class="sidebar-text overflow-hidden whitespace-nowrap">Formal Letters</span>
-          </a>
-          <a 
-            href="/writing/essay" 
-            class="flex items-center px-3 py-2 text-sm rounded-md text-gray-700 hover:bg-gray-100 transition-colors group"
-          >
-            <span class="material-icons text-gray-500 mr-3">edit_note</span>
-            <span class="sidebar-text overflow-hidden whitespace-nowrap">Essays</span>
-          </a>
-        </div>
-      </div>
-    </nav>
-  </div>
-</aside>
-
-<script>
-  const sidebar = document.getElementById('sidebar');
-  const toggleButton = document.getElementById('toggleSidebar');
-  const toggleIcon = document.getElementById('toggleIcon');
-  const sidebarTexts = document.querySelectorAll('.sidebar-text');
-  
-  let isCollapsed = false;
-
-  const toggleSidebar = () => {
-    isCollapsed = !isCollapsed;
-    
-    if (isCollapsed) {
-      sidebar?.classList.remove('w-64');
-      sidebar?.classList.add('w-16');
-      toggleIcon?.classList.add('rotate-180');
-      sidebarTexts.forEach(text => {
-        text.style.opacity = '0';
-        text.style.visibility = 'hidden';
-      });
-    } else {
-      sidebar?.classList.remove('w-16');
-      sidebar?.classList.add('w-64');
-      toggleIcon?.classList.remove('rotate-180');
-      sidebarTexts.forEach(text => {
-        text.style.opacity = '1';
-        text.style.visibility = 'visible';
-      });
-    }
-  };
-
-  toggleButton?.addEventListener('click', toggleSidebar);
-</script>
-
-<style>
-  .sidebar-text {
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-  }
-</style>
-
-<!-- Añade los iconos de Material Icons -->
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+  </aside>
+)} 

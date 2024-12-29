@@ -1,0 +1,72 @@
+---
+import ExerciseLayout from '../../../layouts/ExerciseLayout.astro';
+
+export function getStaticPaths() {
+  return [
+    { params: { type: 'grammar' } },
+    { params: { type: 'cambridge' } }
+  ];
+}
+
+const { type } = Astro.params;
+
+const exercises = {
+  grammar: {
+    title: 'Ejercicios de Gramática',
+    topics: [
+      {
+        title: 'Present Simple',
+        description: 'Practica el presente simple y sus usos',
+        level: 'A1-A2',
+        href: '/exercises/grammar/present-simple'
+      },
+      {
+        title: 'Past Simple',
+        description: 'Aprende a hablar sobre el pasado',
+        level: 'A2',
+        href: '/exercises/grammar/past-simple'
+      }
+      // Añade más temas según necesites
+    ]
+  },
+  cambridge: {
+    title: 'Práctica Cambridge',
+    topics: [
+      {
+        title: 'Reading B2',
+        description: 'Práctica de comprensión lectora nivel B2',
+        level: 'B2',
+        href: '/exercises/cambridge/reading-b2'
+      },
+      {
+        title: 'Use of English B2',
+        description: 'Ejercicios de uso del inglés',
+        level: 'B2',
+        href: '/exercises/cambridge/use-of-english-b2'
+      }
+      // Añade más temas según necesites
+    ]
+  }
+};
+
+const content = exercises[type as keyof typeof exercises];
+---
+
+<ExerciseLayout title={content.title}>
+  <div class="grid md:grid-cols-2 gap-6">
+    {content.topics.map(topic => (
+      <a 
+        href={topic.href}
+        class="block p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100"
+      >
+        <div class="flex justify-between items-start mb-4">
+          <h3 class="text-xl font-semibold text-gray-900">{topic.title}</h3>
+          <span class="px-2 py-1 text-sm font-medium bg-primary-50 text-primary-700 rounded">
+            {topic.level}
+          </span>
+        </div>
+        <p class="text-gray-600">{topic.description}</p>
+      </a>
+    ))}
+  </div>
+</ExerciseLayout> 
