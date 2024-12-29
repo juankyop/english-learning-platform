@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import { z } from 'zod';
+import path from 'path';
 
 export default defineConfig({
 	integrations: [tailwind()],
@@ -13,6 +14,13 @@ export default defineConfig({
 					level: z.string(),
 					order: z.number()
 				})
+			}
+		}
+	},
+	vite: {
+		resolve: {
+			alias: {
+				'@': path.resolve('./src')
 			}
 		}
 	}

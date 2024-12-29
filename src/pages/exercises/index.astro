@@ -63,8 +63,13 @@ const exerciseTypes = [
       <!-- Cards de ejercicios (columna derecha en desktop) -->
       <div class="lg:col-span-2">
         <div class="grid md:grid-cols-2 gap-8">
-          {exerciseTypes.map(type => (
-            <a href={type.href} class="block group">
+          {exerciseTypes.map((type, index) => (
+            <a 
+              href={type.href} 
+              class="block group"
+              transition:animate="slide"
+              style={`animation-delay: ${index * 100}ms`}
+            >
               <div class="bg-white depth-card rounded-[2rem] p-12 h-full">
                 <div class="flex flex-col h-full">
                   <!-- Icono y título -->
@@ -74,9 +79,13 @@ const exerciseTypes = [
                         src={type.icon} 
                         alt="" 
                         class="w-full h-full"
+                        transition:name={`icon-${type.icon}`}
                       />
                     </div>
-                    <h2 class="text-3xl font-semibold text-gray-900 mb-2">
+                    <h2 
+                      class="text-3xl font-semibold text-gray-900 mb-2 card-title transition-all duration-300"
+                      transition:name={`title-${type.title}`}
+                    >
                       {type.title}
                     </h2>
                     <p class="text-xl text-gray-600">
@@ -89,26 +98,17 @@ const exerciseTypes = [
                     {type.description}
                   </p>
                   
-                  <!-- Features -->
-                  <div class="mt-auto">
-                    <ul class="space-y-3 mb-8">
-                      {type.features.map(feature => (
-                        <li class="flex items-center text-gray-700">
-                          <svg class="w-5 h-5 mr-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                          </svg>
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-
-                    <div class="inline-flex items-center text-primary font-medium group-hover:text-primary">
-                      Explorar {type.title}
-                      <svg class="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                      </svg>
-                    </div>
-                  </div>
+                  <!-- Features sin animación de desplazamiento -->
+                  <ul class="space-y-3 mb-8">
+                    {type.features.map((feature) => (
+                      <li class="flex items-center text-gray-700 feature-item">
+                        <svg class="w-5 h-5 mr-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             </a>
@@ -118,3 +118,17 @@ const exerciseTypes = [
     </div>
   </div>
 </BaseLayout> 
+
+<script>
+  document.addEventListener('mousemove', (e) => {
+    const cards = document.querySelectorAll('.depth-card');
+    cards.forEach(card => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      card.style.setProperty('--mouse-x', `${x}px`);
+      card.style.setProperty('--mouse-y', `${y}px`);
+    });
+  });
+</script> 

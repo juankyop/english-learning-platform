@@ -1,10 +1,52 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import ExamCard from '../../../components/ui/ExamCard.astro';
-import { cambridgeExams } from '../../../data/cambridge-exams';
+
+const exams = [
+  {
+    id: 'b1-reading',
+    title: 'B1 Reading Test',
+    description: 'Practica la sección de lectura del examen B1 Preliminary.',
+    icon: '/icons/exam/reading-icon.svg',
+    duration: '45 min',
+    questions: 32,
+    difficulty: 'Intermedio',
+    completed: false
+  },
+  {
+    id: 'b1-listening',
+    title: 'B1 Listening Test',
+    description: 'Mejora tu comprensión auditiva con ejercicios del nivel B1.',
+    icon: '/icons/exam/listening-icon.svg',
+    duration: '30 min',
+    questions: 25,
+    difficulty: 'Intermedio',
+    completed: false
+  },
+  {
+    id: 'b1-writing',
+    title: 'B1 Writing Test',
+    description: 'Desarrolla tus habilidades de escritura para el nivel B1.',
+    icon: '/icons/exam/writing-icon.svg',
+    duration: '60 min',
+    questions: 2,
+    difficulty: 'Intermedio',
+    completed: false
+  },
+  {
+    id: 'b1-speaking',
+    title: 'B1 Speaking Test',
+    description: 'Prepárate para la parte oral del examen B1.',
+    icon: '/icons/exam/speaking-icon.svg',
+    duration: '15 min',
+    questions: 4,
+    difficulty: 'Intermedio',
+    completed: false
+  }
+];
 ---
 
-<BaseLayout title="Práctica de Examen Cambridge - English Learning">
+<BaseLayout title="Cambridge Exams - English Learning">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <div class="mb-12">
       <div class="flex items-center gap-4 mb-4">
@@ -13,54 +55,25 @@ import { cambridgeExams } from '../../../data/cambridge-exams';
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
           </svg>
         </a>
-        <h1 class="text-4xl font-bold text-gray-900">Práctica de Examen Cambridge</h1>
+        <h1 class="text-4xl font-bold text-gray-900">Cambridge Exams</h1>
       </div>
       <p class="text-lg text-gray-600">
-        Prepárate para tu examen Cambridge practicando con ejercicios que siguen el formato oficial.
+        Practica con exámenes que simulan el formato real de Cambridge English.
       </p>
     </div>
 
-    <div class="space-y-12">
-      {cambridgeExams.map(exam => (
-        <section class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-          <div class="p-6 border-b border-gray-200">
-            <h2 class="text-2xl font-bold text-gray-900">
-              {exam.name} ({exam.level})
-            </h2>
-          </div>
-
-          <!-- Reading Section -->
-          <div class="p-6 border-b border-gray-200">
-            <h3 class="text-xl font-semibold text-gray-900 mb-4">Reading</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {exam.readingParts.map(part => (
-                <ExamCard
-                  href={`/exercises/cambridge/${exam.level}/reading/${part.id}`}
-                  title={part.title}
-                  description={part.description}
-                  timeAllowed={part.timeAllowed}
-                  numberOfQuestions={part.numberOfQuestions}
-                />
-              ))}
-            </div>
-          </div>
-
-          <!-- Use of English Section -->
-          <div class="p-6">
-            <h3 class="text-xl font-semibold text-gray-900 mb-4">Use of English</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {exam.useOfEnglishParts.map(part => (
-                <ExamCard
-                  href={`/exercises/cambridge/${exam.level}/use-of-english/${part.id}`}
-                  title={part.title}
-                  description={part.description}
-                  timeAllowed={part.timeAllowed}
-                  numberOfQuestions={part.numberOfQuestions}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {exams.map(exam => (
+        <ExamCard
+          title={exam.title}
+          description={exam.description}
+          href={`/exercises/cambridge/${exam.id}`}
+          icon={exam.icon}
+          duration={exam.duration}
+          questions={exam.questions}
+          difficulty={exam.difficulty}
+          completed={exam.completed}
+        />
       ))}
     </div>
   </div>

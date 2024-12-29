@@ -1,5 +1,6 @@
 ---
 import Header from '../components/layout/Header.astro';
+import { ViewTransitions } from 'astro:transitions';
 import '../styles/global.css';
 
 interface Props {
@@ -20,6 +21,7 @@ const isHome = currentPath === '/';
     <title>{title} | English Learning Platform</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <ViewTransitions />
   </head>
   <body class="bg-[#F8F9FF] font-inter">
     {isHome && <Header />}
@@ -47,5 +49,33 @@ const isHome = currentPath === '/';
     background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  /* Animaciones para las transiciones de página */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+
+  /* Animación para la salida de la página */
+  ::view-transition-old(root) {
+    opacity: 1;
+  }
+
+  /* Animación para la entrada de la página */
+  ::view-transition-new(root) {
+    opacity: 0;
+  }
+
+  /* Estado activo de la transición */
+  :root::view-transition-container(root) {
+    opacity: 1;
+  }
+
+  /* Animación personalizada para las cards */
+  @keyframes slide-up {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
   }
 </style> 

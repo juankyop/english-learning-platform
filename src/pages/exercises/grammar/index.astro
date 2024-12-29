@@ -39,10 +39,11 @@ const levels = Object.keys(topicsByLevel).sort();
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {topicsByLevel[level].map(topic => (
             <TopicCard
-              href={`/exercises/grammar/${topic.id}`}
               title={topic.title}
-              level={topic.level}
               description={topic.description}
+              href={`/exercises/grammar/${topic.id}`}
+              icon={topic.icon}
+              completed={topic.completed}
             />
           ))}
         </div>
