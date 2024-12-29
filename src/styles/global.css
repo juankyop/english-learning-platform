@@ -13,4 +13,14 @@ body {
 
 .prose {
   @apply max-w-none;
+}
+
+/* Animaciones suaves */
+.hover\:scale-up {
+  @apply transition-transform duration-300 hover:scale-105;
+}
+
+/* Gradientes */
+.bg-gradient-primary {
+  @apply bg-gradient-to-r from-primary to-secondary;
 } 

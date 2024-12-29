@@ -1,19 +1,111 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/sections/Hero.astro';
-import Features from '../components/sections/Features.astro';
-import Levels from '../components/sections/Levels.astro';
-import CTA from '../components/sections/CTA.astro';
 
-const metaDescription = "Aprende inglés de manera efectiva y estructurada con nuestra plataforma...";
+const features = [
+  {
+    title: "Aprende a tu ritmo",
+    description: "Una plataforma que se adapta a tus necesidades de aprendizaje.",
+    image: "/images/home/feature-1.svg",
+  },
+  {
+    title: "Organiza tu aprendizaje",
+    description: "Contenido estructurado por niveles y temas.",
+    image: "/images/home/feature-2.svg",
+  },
+  {
+    title: "Progreso personalizado",
+    description: "Seguimiento detallado de tu avance.",
+    image: "/images/home/feature-3.svg",
+  }
+];
 ---
 
-<BaseLayout 
-	title="Bienvenido a English Learning"
-	mode="default"
->
-	<Hero />
-	<Features />
-	<Levels />
-	<CTA />
+<BaseLayout title="English Learning Platform">
+  <!-- Hero Section -->
+  <div class="min-h-screen flex flex-col">
+    <!-- Header con gradiente y patrón -->
+    <section class="flex-grow relative overflow-hidden bg-gradient-to-b from-gray-50 to-white">
+      <div class="absolute inset-0 bg-grid-pattern opacity-5"></div>
+      
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
+        <!-- Hero Content -->
+        <div class="max-w-4xl mx-auto text-center mb-16">
+          <h1 class="text-6xl md:text-7xl font-bold mb-8 leading-tight">
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
+              Aprende inglés
+            </span>
+            <br />
+            <span class="text-gray-900">de manera efectiva</span>
+          </h1>
+          
+          <p class="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
+            Una plataforma moderna que se adapta a tu forma de aprender, con ejercicios interactivos y teoría estructurada.
+          </p>
+          
+          <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <a href="/documentation" 
+              class="px-8 py-4 bg-primary text-white rounded-2xl text-lg font-medium hover:bg-primary/90 transition-all hover:scale-105">
+              Comenzar ahora
+            </a>
+            <a href="/exercises" 
+              class="px-8 py-4 bg-white text-primary border-2 border-primary/10 rounded-2xl text-lg font-medium hover:border-primary/30 transition-all hover:scale-105">
+              Explorar ejercicios
+            </a>
+          </div>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="grid md:grid-cols-3 gap-6 md:gap-8">
+          {features.map(feature => (
+            <div class="group bg-white rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <div class="aspect-[4/3] mb-6 overflow-hidden rounded-2xl bg-gray-50">
+                <img 
+                  src={feature.image} 
+                  alt={feature.title}
+                  class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <h3 class="text-xl font-bold mb-2 text-gray-900">{feature.title}</h3>
+              <p class="text-gray-600 leading-relaxed">{feature.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="bg-primary relative overflow-hidden">
+      <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="relative bg-white/10 backdrop-blur-lg rounded-3xl p-8 md:p-12 overflow-hidden">
+          <div class="relative z-10 max-w-3xl">
+            <h2 class="text-4xl font-bold text-white mb-4">
+              Comienza tu viaje hacia el dominio del inglés
+            </h2>
+            <p class="text-xl text-white/80 mb-8">
+              Únete a nuestra plataforma y mejora tu inglés de manera efectiva
+            </p>
+            <a 
+              href="/documentation" 
+              class="inline-block px-8 py-4 bg-white text-primary rounded-2xl text-lg font-medium hover:bg-gray-50 transition-all hover:scale-105"
+            >
+              Empezar ahora
+            </a>
+          </div>
+          <!-- Decorative circles -->
+          <div class="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-96 h-96 bg-secondary/30 rounded-full blur-3xl"></div>
+          <div class="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-96 h-96 bg-primary/30 rounded-full blur-3xl"></div>
+        </div>
+      </div>
+    </section>
+  </div>
 </BaseLayout>
+
+<style>
+.bg-grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(0,0,0,0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0,0,0,0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+</style>
