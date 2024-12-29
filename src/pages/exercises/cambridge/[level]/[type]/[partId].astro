@@ -1,0 +1,119 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Timer from '../../../../../components/ui/Timer.astro';
+import ExerciseProgress from '../../../../../components/ui/ExerciseProgress.astro';
+import { cambridgeExams } from '../../../../../data/cambridge-exams';
+import MultipleChoiceCloze from '../../../../../components/exercises/MultipleChoiceCloze.astro';
+import { fceUsePart1 } from '../../../../../data/exercises/fce-use-part1';
+
+export function getStaticPaths() {
+  const paths = [];
+  
+  // Generar rutas para cada examen y sus partes
+  cambridgeExams.forEach(exam => {
+    // Rutas para Reading
+    exam.readingParts.forEach(part => {
+      paths.push({
+        params: {
+          level: exam.level,
+          type: 'reading',
+          partId: part.id
+        }
+      });
+    });
+
+    // Rutas para Use of English
+    exam.useOfEnglishParts.forEach(part => {
+      paths.push({
+        params: {
+          level: exam.level,
+          type: 'use-of-english',
+          partId: part.id
+        }
+      });
+    });
+  });
+
+  return paths;
+}
+
+const { level, type, partId } = Astro.params;
+
+// Encontrar el examen y la parte correspondiente
+const exam = cambridgeExams.find(e => e.level === level);
+const part = type === 'reading' 
+  ? exam?.readingParts.find(p => p.id === partId)
+  : exam?.useOfEnglishParts.find(p => p.id === partId);
+
+if (!exam || !part) {
+  return Astro.redirect('/404');
+}
+
+const title = `${exam.name} - ${part.title}`;
+
+const exercise = fceUsePart1; // En un caso real, esto vendría de una base de datos o API
+---
+
+<BaseLayout title={title}>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold mb-2">{title}</h1>
+      <p class="text-gray-600">{part.description}</p>
+    </div>
+
+    <!-- Barra de estado del ejercicio -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-8">
+      <div class="flex items-center justify-between">
+        <Timer initialTime={part.timeAllowed * 60} />
+        <ExerciseProgress total={part.numberOfQuestions} current={0} />
+      </div>
+    </div>
+
+    <!-- Tips antes de comenzar -->
+    <div class="bg-primary/5 rounded-lg p-6 mb-8">
+      <h2 class="text-lg font-semibold mb-4">Tips para esta sección:</h2>
+      <ul class="space-y-2">
+        {part.tips.map(tip => (
+          <li class="flex items-start">
+            <span class="text-primary mr-2">•</span>
+            <span>{tip}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Botón de comenzar -->
+    <div class="text-center">
+      <button
+        id="startExercise"
+        class="inline-block px-8 py-4 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors"
+      >
+        Comenzar ejercicio
+      </button>
+    </div>
+
+    <!-- Contenedor del ejercicio (inicialmente oculto) -->
+    <div id="exerciseContainer" class="hidden mt-8">
+      {type === 'use-of-english' && exercise.type === 'multiple-choice' && (
+        <MultipleChoiceCloze exercise={exercise} />
+      )}
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  // Lógica para manejar el ejercicio
+  const startButton = document.getElementById('startExercise');
+  const exerciseContainer = document.getElementById('exerciseContainer');
+
+  startButton?.addEventListener('click', () => {
+    startButton.classList.add('hidden');
+    exerciseContainer?.classList.remove('hidden');
+    // Iniciar el temporizador y cargar el primer ejercicio
+    loadExercise();
+  });
+
+  function loadExercise() {
+    document.dispatchEvent(new CustomEvent('exerciseStart'));
+  }
+</script> 

@@ -1,0 +1,90 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import TopicCard from '../../../components/ui/TopicCard.astro';
+import { grammarTopics } from '../../../data/grammar-topics';
+
+// Agrupar temas por nivel
+const topicsByLevel = grammarTopics.reduce((acc, topic) => {
+  if (!acc[topic.level]) {
+    acc[topic.level] = [];
+  }
+  acc[topic.level].push(topic);
+  return acc;
+}, {} as Record<string, typeof grammarTopics>);
+
+const levels = Object.keys(topicsByLevel).sort();
+---
+
+<BaseLayout title="Ejercicios de Gramática - English Learning">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="mb-12">
+      <div class="flex items-center gap-4 mb-4">
+        <a href="/exercises" class="text-gray-600 hover:text-primary">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </a>
+        <h1 class="text-4xl font-bold text-gray-900">Ejercicios de Gramática</h1>
+      </div>
+      <p class="text-lg text-gray-600">
+        Selecciona un tema gramatical para practicar. Los ejercicios están organizados por nivel de dificultad.
+      </p>
+    </div>
+
+    {levels.map(level => (
+      <section class="mb-12 last:mb-0">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">
+          Nivel {level}
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {topicsByLevel[level].map(topic => (
+            <TopicCard
+              href={`/exercises/grammar/${topic.id}`}
+              title={topic.title}
+              level={topic.level}
+              description={topic.description}
+            />
+          ))}
+        </div>
+      </section>
+    ))}
+
+    <!-- Filtros y búsqueda (opcional) -->
+    <div class="sticky bottom-0 bg-white border-t border-gray-200 mt-8 p-4">
+      <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <span class="text-sm font-medium text-gray-700">Filtrar por:</span>
+          <select class="form-select rounded-lg border-gray-300 text-sm">
+            <option>Todos los niveles</option>
+            {levels.map(level => (
+              <option value={level}>Nivel {level}</option>
+            ))}
+          </select>
+        </div>
+        <div class="flex-1 max-w-xs">
+          <input
+            type="search"
+            placeholder="Buscar tema..."
+            class="form-input w-full rounded-lg border-gray-300 text-sm"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  // Lógica para filtrado y búsqueda (se implementará más adelante)
+  const filterSelect = document.querySelector('select');
+  const searchInput = document.querySelector('input[type="search"]');
+
+  filterSelect?.addEventListener('change', (e) => {
+    const level = (e.target as HTMLSelectElement).value;
+    // Implementar filtrado por nivel
+  });
+
+  searchInput?.addEventListener('input', (e) => {
+    const search = (e.target as HTMLInputElement).value.toLowerCase();
+    // Implementar búsqueda
+  });
+</script> 

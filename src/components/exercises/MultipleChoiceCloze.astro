@@ -1,0 +1,103 @@
+---
+import type { UseOfEnglishExercise } from '../../types/exercises';
+
+interface Props {
+  exercise: UseOfEnglishExercise;
+}
+
+const { exercise } = Astro.props;
+
+// Preparar el texto con los huecos numerados
+const textWithGaps = exercise.text.replace(/___+/g, (match, index) => 
+  `<span class="gap" data-gap="${index + 1}">(_${index + 1}_)</span>`
+);
+---
+
+<div class="space-y-8">
+  <!-- Texto con huecos -->
+  <div class="bg-white rounded-lg p-6 shadow-sm">
+    <div 
+      class="prose prose-lg max-w-none"
+      set:html={textWithGaps}
+    />
+  </div>
+
+  <!-- Preguntas -->
+  <div class="space-y-6">
+    {exercise.questions.map(question => (
+      <div class="bg-white rounded-lg p-6 shadow-sm">
+        <p class="font-medium mb-4">{question.text}</p>
+        <div class="grid grid-cols-2 gap-3" data-question-id={question.id}>
+          {question.options.map(option => (
+            <button
+              class="text-left px-4 py-2 rounded border border-gray-200 hover:border-primary hover:bg-primary/5 transition-colors"
+              data-option={option}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<script>
+  class MultipleChoiceExercise {
+    private selectedAnswers: Map<string, string> = new Map();
+    private questions: NodeListOf<Element>;
+    private gaps: NodeListOf<Element>;
+
+    constructor() {
+      this.questions = document.querySelectorAll('[data-question-id]');
+      this.gaps = document.querySelectorAll('.gap');
+      this.init();
+    }
+
+    private init() {
+      this.questions.forEach(question => {
+        const buttons = question.querySelectorAll('button');
+        const questionId = question.getAttribute('data-question-id') || '';
+
+        buttons.forEach(button => {
+          button.addEventListener('click', () => {
+            // Desseleccionar otros botones del mismo grupo
+            buttons.forEach(b => b.classList.remove('bg-primary/5', 'border-primary'));
+            
+            // Seleccionar el botón actual
+            button.classList.add('bg-primary/5', 'border-primary');
+            
+            // Guardar la respuesta
+            const option = button.getAttribute('data-option') || '';
+            this.selectedAnswers.set(questionId, option);
+            
+            // Actualizar el hueco correspondiente
+            this.updateGap(questionId, option);
+            
+            // Disparar evento de respuesta
+            document.dispatchEvent(new CustomEvent('questionAnswered', {
+              detail: { current: this.selectedAnswers.size }
+            }));
+          });
+        });
+      });
+    }
+
+    private updateGap(questionId: string, answer: string) {
+      const gap = document.querySelector(`[data-gap="${questionId}"]`);
+      if (gap) {
+        gap.textContent = answer;
+        gap.classList.add('text-primary', 'font-medium');
+      }
+    }
+  }
+
+  // Inicializar el ejercicio
+  new MultipleChoiceExercise();
+</script>
+
+<style>
+  .gap {
+    @apply inline-block min-w-[3em] text-center border-b-2 border-gray-300 mx-1;
+  }
+</style> 

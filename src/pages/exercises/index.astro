@@ -1,42 +1,120 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import TopicCard from '../../components/ui/TopicCard.astro';
+import Button from '../../components/ui/Button.astro';
 
-const exerciseTopics = [
+const exerciseTypes = [
   {
-    id: 'present-simple',
-    title: 'Present Simple Exercises',
-    level: 'A1',
-    description: 'Practice using the present simple tense with various exercises',
+    title: 'Ejercicios de Gramática',
+    subtitle: 'Domina las reglas.',
+    description: 'Practica la gramática inglesa con ejercicios organizados por temas y niveles.',
+    icon: '/icons/grammar-icon.svg',
+    href: '/exercises/grammar',
+    features: [
+      'Ejercicios organizados por temas',
+      'Diferentes niveles de dificultad',
+      'Explicaciones detalladas',
+      'Práctica interactiva'
+    ]
   },
   {
-    id: 'past-simple',
-    title: 'Past Simple Exercises',
-    level: 'A1',
-    description: 'Test your knowledge of the past simple tense',
-  },
-  {
-    id: 'present-perfect',
-    title: 'Present Perfect Exercises',
-    level: 'B1',
-    description: 'Practice using present perfect in different contexts',
+    title: 'Cambridge Exam',
+    subtitle: 'Prepárate para el éxito.',
+    description: 'Ejercicios que simulan el formato real de los exámenes Cambridge.',
+    icon: '/icons/exam-icon.svg',
+    href: '/exercises/cambridge',
+    features: [
+      'Formato idéntico al examen',
+      'Cronómetro incluido',
+      'Tips y estrategias',
+      'Corrección detallada'
+    ]
   }
 ];
 ---
 
 <BaseLayout title="Ejercicios - English Learning">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <h1 class="text-3xl font-bold mb-8">Ejercicios por tema</h1>
-    
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {exerciseTopics.map(topic => (
-        <TopicCard
-          href={`/exercises/${topic.id}`}
-          title={topic.title}
-          level={topic.level}
-          description={topic.description}
-        />
-      ))}
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Barra de progreso (columna izquierda en desktop) -->
+      <div class="lg:col-span-1">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 sticky top-8">
+          <h2 class="text-2xl font-bold text-gray-900 mb-8">Tu progreso</h2>
+          <div class="space-y-8">
+            <div>
+              <div class="text-3xl font-bold text-primary mb-2">0</div>
+              <div class="text-sm text-gray-600">Ejercicios completados</div>
+            </div>
+            <div>
+              <div class="text-3xl font-bold text-primary mb-2">0%</div>
+              <div class="text-sm text-gray-600">Precisión media</div>
+            </div>
+            <div>
+              <div class="text-3xl font-bold text-primary mb-2">0</div>
+              <div class="text-sm text-gray-600">Temas dominados</div>
+            </div>
+            <div>
+              <div class="text-3xl font-bold text-primary mb-2">0h</div>
+              <div class="text-sm text-gray-600">Tiempo de práctica</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cards de ejercicios (columna derecha en desktop) -->
+      <div class="lg:col-span-2">
+        <div class="grid md:grid-cols-2 gap-8">
+          {exerciseTypes.map(type => (
+            <a href={type.href} class="block group">
+              <div class="bg-white border border-gray-200 rounded-[2rem] p-12 h-full transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:border-primary/20">
+                <div class="flex flex-col h-full">
+                  <!-- Icono y título -->
+                  <div class="mb-8">
+                    <div class="w-16 h-16 mb-6">
+                      <img 
+                        src={type.icon} 
+                        alt="" 
+                        class="w-full h-full"
+                      />
+                    </div>
+                    <h2 class="text-3xl font-semibold text-gray-900 mb-2">
+                      {type.title}
+                    </h2>
+                    <p class="text-xl text-gray-600">
+                      {type.subtitle}
+                    </p>
+                  </div>
+
+                  <!-- Descripción -->
+                  <p class="text-gray-600 text-lg mb-8">
+                    {type.description}
+                  </p>
+
+                  <!-- Features -->
+                  <div class="mt-auto">
+                    <ul class="space-y-3 mb-8">
+                      {type.features.map(feature => (
+                        <li class="flex items-center text-gray-700">
+                          <svg class="w-5 h-5 mr-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                          </svg>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+
+                    <div class="inline-flex items-center text-primary font-medium group-hover:text-primary">
+                      Explorar {type.title}
+                      <svg class="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
     </div>
   </div>
 </BaseLayout> 

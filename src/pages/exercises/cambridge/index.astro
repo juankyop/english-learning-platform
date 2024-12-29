@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ExamCard from '../../../components/ui/ExamCard.astro';
+import { cambridgeExams } from '../../../data/cambridge-exams';
+---
+
+<BaseLayout title="Práctica de Examen Cambridge - English Learning">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="mb-12">
+      <div class="flex items-center gap-4 mb-4">
+        <a href="/exercises" class="text-gray-600 hover:text-primary">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </a>
+        <h1 class="text-4xl font-bold text-gray-900">Práctica de Examen Cambridge</h1>
+      </div>
+      <p class="text-lg text-gray-600">
+        Prepárate para tu examen Cambridge practicando con ejercicios que siguen el formato oficial.
+      </p>
+    </div>
+
+    <div class="space-y-12">
+      {cambridgeExams.map(exam => (
+        <section class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+          <div class="p-6 border-b border-gray-200">
+            <h2 class="text-2xl font-bold text-gray-900">
+              {exam.name} ({exam.level})
+            </h2>
+          </div>
+
+          <!-- Reading Section -->
+          <div class="p-6 border-b border-gray-200">
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">Reading</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {exam.readingParts.map(part => (
+                <ExamCard
+                  href={`/exercises/cambridge/${exam.level}/reading/${part.id}`}
+                  title={part.title}
+                  description={part.description}
+                  timeAllowed={part.timeAllowed}
+                  numberOfQuestions={part.numberOfQuestions}
+                />
+              ))}
+            </div>
+          </div>
+
+          <!-- Use of English Section -->
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">Use of English</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {exam.useOfEnglishParts.map(part => (
+                <ExamCard
+                  href={`/exercises/cambridge/${exam.level}/use-of-english/${part.id}`}
+                  title={part.title}
+                  description={part.description}
+                  timeAllowed={part.timeAllowed}
+                  numberOfQuestions={part.numberOfQuestions}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      ))}
+    </div>
+  </div>
+</BaseLayout> 

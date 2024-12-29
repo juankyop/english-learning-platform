@@ -1,0 +1,59 @@
+---
+interface Props {
+  current: number;
+  total: number;
+}
+
+const { current, total } = Astro.props;
+const percentage = (current / total) * 100;
+---
+
+<div class="flex items-center space-x-4">
+  <div class="flex-1 bg-gray-200 rounded-full h-2.5 w-48">
+    <div 
+      class="bg-primary h-2.5 rounded-full transition-all duration-300" 
+      style={`width: ${percentage}%`}
+      id="progressBar"
+      data-current={current}
+      data-total={total}
+    >
+    </div>
+  </div>
+  <span class="text-sm text-gray-600" id="progressText">
+    {current} de {total}
+  </span>
+</div>
+
+<script>
+  class Progress {
+    private bar: HTMLElement;
+    private text: HTMLElement;
+    private current: number;
+    private total: number;
+
+    constructor(bar: HTMLElement, text: HTMLElement) {
+      this.bar = bar;
+      this.text = text;
+      this.current = parseInt(bar.dataset.current || '0');
+      this.total = parseInt(bar.dataset.total || '0');
+    }
+
+    update(current: number) {
+      this.current = current;
+      const percentage = (this.current / this.total) * 100;
+      this.bar.style.width = `${percentage}%`;
+      this.text.textContent = `${this.current} de ${this.total}`;
+    }
+  }
+
+  // Inicializar el progreso
+  const progressBar = document.getElementById('progressBar');
+  const progressText = document.getElementById('progressText');
+  
+  if (progressBar && progressText) {
+    const progress = new Progress(progressBar, progressText);
+    document.addEventListener('questionAnswered', (e: CustomEvent) => {
+      progress.update(e.detail.current);
+    });
+  }
+</script> 
