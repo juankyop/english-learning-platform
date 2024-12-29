@@ -36,15 +36,12 @@ const grammarDocs = await getCollection('docs', ({ id }) => id.startsWith('gramm
 const vocabDocs = await getCollection('docs', ({ id }) => id.startsWith('vocabulary/'));
 ---
 
-<BaseLayout 
-  title="Documentación"
-  mode="docs"
->
+<BaseLayout title="Documentación">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <!-- Barra lateral (columna izquierda en desktop) -->
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      <!-- Guía de estudio (ahora más ancha) -->
       <div class="lg:col-span-1">
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 sticky top-8">
+        <div class="stats-card rounded-2xl p-8 sticky top-8">
           <h2 class="text-2xl font-bold text-gray-900 mb-8">Guía de Estudio</h2>
           <div class="space-y-8">
             <div>
@@ -63,16 +60,16 @@ const vocabDocs = await getCollection('docs', ({ id }) => id.startsWith('vocabul
         </div>
       </div>
 
-      <!-- Cards de teoría (columna derecha en desktop) -->
-      <div class="lg:col-span-2">
+      <!-- Cards de teoría (ahora ocupan 3 columnas) -->
+      <div class="lg:col-span-3">
         <div class="grid md:grid-cols-2 gap-8">
           {sections.map(section => (
             <a href={section.href} class="block group">
-              <div class="bg-white border border-gray-200 rounded-[2rem] p-12 h-full transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:border-primary/20">
+              <div class="bg-white depth-card rounded-[2rem] p-12 h-full transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:border-primary/20">
                 <div class="flex flex-col h-full">
                   <!-- Icono y título -->
                   <div class="mb-8">
-                    <div class="w-16 h-16 mb-6">
+                    <div class="w-16 h-16 mb-6 floating-icon">
                       <img 
                         src={section.icon} 
                         alt="" 

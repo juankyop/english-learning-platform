@@ -37,7 +37,7 @@ const exerciseTypes = [
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
       <!-- Barra de progreso (columna izquierda en desktop) -->
       <div class="lg:col-span-1">
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 sticky top-8">
+        <div class="stats-card rounded-2xl p-8 sticky top-8">
           <h2 class="text-2xl font-bold text-gray-900 mb-8">Tu progreso</h2>
           <div class="space-y-8">
             <div>
@@ -65,11 +65,11 @@ const exerciseTypes = [
         <div class="grid md:grid-cols-2 gap-8">
           {exerciseTypes.map(type => (
             <a href={type.href} class="block group">
-              <div class="bg-white border border-gray-200 rounded-[2rem] p-12 h-full transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:border-primary/20">
+              <div class="bg-white depth-card rounded-[2rem] p-12 h-full">
                 <div class="flex flex-col h-full">
                   <!-- Icono y título -->
                   <div class="mb-8">
-                    <div class="w-16 h-16 mb-6">
+                    <div class="w-16 h-16 mb-6 floating-icon">
                       <img 
                         src={type.icon} 
                         alt="" 

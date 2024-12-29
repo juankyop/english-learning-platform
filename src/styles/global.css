@@ -23,4 +23,110 @@ body {
 /* Gradientes */
 .bg-gradient-primary {
   @apply bg-gradient-to-r from-primary to-secondary;
+}
+
+/* Añadir estos estilos para las nuevas clases */
+.depth-card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    0 0 0 1px rgba(55, 62, 251, 0.1) inset,
+    0 -20px 40px -15px rgba(55, 62, 251, 0.1) inset;
+  transform-style: preserve-3d;
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.depth-card::before {
+  display: none;
+}
+
+.depth-card:hover {
+  transform: translateY(-8px) scale(1.02) perspective(1000px) rotateX(2deg);
+  box-shadow: 
+    0 25px 35px -5px rgba(0, 0, 0, 0.15),
+    0 15px 15px -5px rgba(0, 0, 0, 0.1),
+    0 0 0 2px rgba(55, 62, 251, 0.2) inset,
+    0 -20px 40px -15px rgba(55, 62, 251, 0.2) inset;
+}
+
+.depth-card:hover::before {
+  display: none;
+}
+
+.stats-card {
+  background: linear-gradient(145deg, #ffffff, #f5f5f5);
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    0 0 0 1px rgba(55, 62, 251, 0.1) inset;
+  position: relative;
+  overflow: hidden;
+}
+
+.stats-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right bottom,
+    rgba(255, 255, 255, 0.2),
+    rgba(255, 255, 255, 0.05)
+  );
+  clip-path: polygon(0 0, 100% 0, 100% 20%, 0 50%);
+}
+
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg); 
+  }
+  25% { 
+    transform: translateY(-8px) rotate(-2deg); 
+  }
+  75% { 
+    transform: translateY(-4px) rotate(2deg); 
+  }
+}
+
+.floating-icon {
+  animation: float 8s ease-in-out infinite;
+  filter: drop-shadow(0 5px 15px rgba(55, 62, 251, 0.2));
+}
+
+/* Nuevos efectos para los números en stats-card */
+@keyframes countUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.stats-card .text-3xl {
+  animation: countUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  display: inline-block;
+}
+
+/* Efecto de resplandor para los iconos */
+@keyframes glow {
+  0%, 100% { filter: drop-shadow(0 0 5px rgba(55, 62, 251, 0.3)); }
+  50% { filter: drop-shadow(0 0 20px rgba(55, 62, 251, 0.6)); }
+}
+
+.floating-icon img {
+  animation: glow 3s ease-in-out infinite;
+}
+
+/* Efecto de hover para los enlaces */
+.depth-card .text-primary {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.depth-card .text-primary::after {
+  display: none;
+}
+
+.depth-card:hover .text-primary::after {
+  width: 100%;
 } 
